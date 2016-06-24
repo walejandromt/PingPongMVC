@@ -1,5 +1,5 @@
 (function(){
-	var self.Board = function(width, height){
+		self.Board = function(width, height){
 		this.width = width;
 		this.height = height;
 		this.playing = false;
@@ -19,17 +19,18 @@
 
 (function(){
 	self.BoardView = function(canvas, board){
+
 		this.canvas = canvas;
 		this.canvas.width = board.width;
 		this.canvas.height = board.height;
-		this.contexto = canvas.getContext("2d");
+		this.ctx = canvas.getContext("2d");
 		}
-})
+})();
 
 window.addEventListener("Load", main);
 
 function main(){
-	var boar = new Board(800, 400);
-	var canvas = document.getElementById('canvas', board);
-	var boar_view = new BoardView();
+	var board = new Board(800, 400);
+	var canvas = document.getElementById('canvas');
+	var board_view = new BoardView(canvas, board);
 }
