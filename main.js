@@ -50,7 +50,7 @@
 		}
 		self.BoardView.prototype = {
 			draw: function(){
-				for (var i = this.board.elements.length - 1; i >= 0; i++){
+				for (var i = this.board.elements.length - 1; i >= 0; i--){
 					var el = this.board.elements[i];
 
 					draw(this.ctx, el);
@@ -70,7 +70,7 @@
 		}
 })();
 
-window.addEventListener("load", main);
+self.addEventListener("load", main);
 
 function main(){
 	var board = new Board(800, 400);
