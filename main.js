@@ -11,9 +11,22 @@
 	self.Board.prototype = {
 		get elements(){
 			var elements = this.bars;
-			elements.push(this.ball);
+			//elements.push(this.ball);
 			return elements;
 		}
+	}
+})();
+
+(function(){
+	self.Ball = function(x,y,radius,board){
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+		this.speed_y = 0;
+		this.speed_x = 30; 
+		this.board = board;
+
+		board.ball = this;
 	}
 })();
 
@@ -35,7 +48,7 @@
 			this.y += this.speed;
 		},
 		up: function(){
-			this.x -= this.speed;
+			this.y -= this.speed;
 		},
 		toString: function(){
 			return "x: " + this.x + "y: " + this.y;
@@ -53,23 +66,29 @@
 		this.ctx = canvas.getContext("2d");
 		}
 		self.BoardView.prototype = {
+			clean: function(){
+				this.ctx.clearRect(0,0, this.board.width,this.board.height);
+			},
 			draw: function(){
 				for (var i = this.board.elements.length - 1; i >= 0; i--){
 					var el = this.board.elements[i];
 
 					draw(this.ctx, el);
 				};
+			},
+			play: function(){
+				this.clean();
+				this.draw();
 			}
 		}
 		function draw(ctx, element){
-			if(element !== null && element.hasOwnProperty("kind")){
-				switch(element.kind){
-				case "rectangle":
-				console.log("hola");
-				ctx.fillRect(element.x,element.y,element.width,element.height);
-				break;
-			}
-			}
+			
+			switch(element.kind){
+			case "rectangle":
+			ctx.fillRect(element.x,element.y,element.width,element.height);
+			break;
+		}
+			
 			
 		}
 })();
@@ -77,24 +96,37 @@
 //sacamos las barra para que documents tenga acceso a las baras.
 var board = new Board(800, 400);
 	var bar = new Bar(20,100,40,100,board);
-	var bar = new Bar(735,100,40,100,board);
+	var bar_2 = new Bar(735,100,40,100,board);
 	var canvas = document.getElementById('canvas');
 	var board_view = new BoardView(canvas, board);
 	//barras---------
 
 document.addEventListener("keydown", function(ev){
 	//console.log(ev.keyCode);
+	ev.preventDefault();
+	//Barra Uno
 	if(ev.keyCode == 38){
-		bar.up();
+		bar_2.up();
 	}
 	else if(ev.keyCode == 40){
+		bar_2.down();
+	}
+
+	//Barra Dos
+	else if(ev.keyCode == 87){
+		bar.up();
+	}
+	else if(ev.keyCode == 83){
 		bar.down();
 	}
-	console.log(bar.toString());
+	//console.log(bar_2.toString());
 });
 
-self.addEventListener("load", main);
+//reques animation
+ window.requestAnimationFrame(controller);
+//reques animation
 
-function main(){
-	board_view.draw();
+function controller(){
+	board_view.play();
+	window.requestAnimationFrame(controller);
 }
