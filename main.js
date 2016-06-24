@@ -18,6 +18,26 @@
 })();
 
 (function(){
+	self.Bar = function(x,y,width,height,board){
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.board = board;
+		this.board.bars.push(this);
+		this.kind = "rectangle";
+	}
+
+	self.Board.prototype ={
+		down: function(){
+
+		},
+		up: function(){
+
+		}
+	}
+});
+(function(){
 	self.BoardView = function(canvas, board){
 
 		this.canvas = canvas;
@@ -25,9 +45,10 @@
 		this.canvas.height = board.height;
 		this.ctx = canvas.getContext("2d");
 		}
+		
 })();
 
-window.addEventListener("Load", main);
+self.addEventListener("Load", main);
 
 function main(){
 	var board = new Board(800, 400);
